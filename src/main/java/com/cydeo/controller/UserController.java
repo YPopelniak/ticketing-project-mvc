@@ -6,6 +6,7 @@ import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,18 +27,20 @@ public class UserController {
      model.addAttribute("user" ,new UserDto());
      model.addAttribute("roles",roleService.findAll());
      model.addAttribute("users",userService.findAll());
-        System.out.println(userService.findAll());
+
 
 
         return "user/create";
 
     }
     @PostMapping("/create")
-    public String insertUser(Model model){
+    public String insertUser(@ModelAttribute("user") UserDto user, Model model){
 
-model.addAttribute("user",new UserDto());
 
-        return "user/create";
+        userService.save(user);
+
+
+        return "redirect:/user/create";
 
     }
 
