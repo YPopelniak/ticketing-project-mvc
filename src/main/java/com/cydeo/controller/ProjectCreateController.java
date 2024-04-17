@@ -15,33 +15,51 @@ public class ProjectCreateController {
     ProjectService projectService;
     UserService userService;
 
-    public ProjectCreateController(ProjectService projectService, UserService userService){
+    public ProjectCreateController(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
-
     }
 
-        @GetMapping("/create")
-        public String createUser(Model model){
+    @GetMapping("/create")
+    public String createProject(Model model){
 
-    model.addAttribute("project" , new ProjectDTO());
-    model.addAttribute("projects", projectService.findAll());
-    model.addAttribute("managers", userService.findManagers());
+        model.addAttribute("project",new ProjectDTO());
+        model.addAttribute("projects",projectService.findAll());
+        model.addAttribute("managers",userService.findManagers());
 
-            return "project/create";
 
-        }
-        @PostMapping("/create")
-        public String insertProject(ProjectDTO project){
+        return "/project/create";
+    }
+
+    @PostMapping("/create")
+    public String insertProject(ProjectDTO project){
 
         projectService.save(project);
 
         return "redirect:/project/create";
-        }
+    }
 
-        @GetMapping("/delete/{projectcode}")
+    @GetMapping("/delete/{projectcode}")
     public String deleteProject(@PathVariable("projectcode") String projectcode){
         projectService.deleteById(projectcode);
-       return "redirect:/project/create";
-        }
+        return "redirect:/project/create";
+    }
+
+    @GetMapping("/complete/{projectcode}")
+    public String completeProject(@PathVariable("projectcode") String projectcode){
+        projectService.complete(projectService.findById(projectcode));
+        return "redirect:/project/create";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
