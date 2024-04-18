@@ -31,7 +31,7 @@ public class UserController {
 
     }
     @PostMapping("/create")
-    public String insertUser(@ModelAttribute("user") UserDto user, Model model){
+    public String insertTask(@ModelAttribute("user") UserDto user, Model model){
 
 
         userService.save(user);
